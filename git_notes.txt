@@ -1,0 +1,146 @@
+GIT BASICS
+version control system VCS
+allows developers to work on same code base
+may have multiple files interacting with each other
+may have multiple developers
+how do you merge changes into one version
+
+/*************************/
+HOW VERSION CONTROL WORKS
+. in front of name makes a file hidden
+Repository
+Order of changes
+description of change
+who is responsible
+each project has its own repository
+you have to tell VCS when your version is finished == COMMITTING
+versions are COMMITS
+gives you tools to review your project history 
+REPOSITORY is a collection of COMMITS with a set of TOOLS to look at project history
+also SHARING features with advanced ways of working on a project at the same time
+
+/***********************/
+WHY GIT?
+developed to help work on Linux kernel
+distributed VCS -- no central repository, everyone has their own repository
+was developed as the plumbing for a user to make a VCS
+but has gained porcelain of Controls for VCS
+so you have both at your disposal
+GitHub is a social network for your repository
+
+/*************************/
+GETTING STARTED WITH GIT
+git init my_first_repository
+creates repository and .git file
+
+git init (with no dir name will create new repository in current file)
+
+the important thing is the .git folder, it saves everything
+if you delete it the repository is gone
+rm -r my_first_repository/.git    will remove, but be careful!
+
+/**********************/
+COMMITTING CHANGES
+have to let git know that this file is important and git should track it
+git add README
+doesn't track everything in folder because you may not want to share everything
+git commit
+with vim, will add a text description of the commit and then save
+:w to save or :x to save and exit
+SHOULD YOU COMMIT?  is there a meaningful short description?
+git commit -a -m  "added a mission statement"  (-a will commit all needed changes)  (-m will add a message in quotes "example")
+
+THE STAGING AREA  -- control what you want to include in your commit
+git status
+shows information on files that need to be added or committed
+untracked or uncommitted
+adding file to git takes it to the staging area
+sometimes you want to commit file changes separately, sometimes all at once
+git commit -a means you commit all changes at once, dont need to add files one at a time
+
+LOOKING BACK AT WHAT WE'VE DONE
+how do we see our project's history?
+git log   shows a log of all commits, most recent first
+shows author of commit
+shows date and time
+shows commit message
+shows commit id
+
+can use git checkout commit id to go to a different commit
+git checkout master goes back to master
+
+git diff adfef72 7a334
+shows difference between two commits
+
+/**********************/
+BRANCHING
+pursue different courses of action on your project at the same time
+how to create them and switch between them
+MASTER BRANCH is the canonical branch
+once you start a new version, you may want to branch off the master to work on your new stuff
+git branch name
+git checkout name will switch to your branch  (git checkout master will switch back)
+git commit -a -m "Message"  will commit
+git checkout -b bar_feature    will create a new branch if you don't have one of that name (-b is called bar) will branch off current branch
+MANAGING BRANCHES
+might have dozens of branches, how to keep track?
+git branch (will show list of all branches, current branch is *)
+git branch -D bar_feature (will delete branch bar_feature --force delete even if unmerged changes)
+git branch -d bar_feature (will not delete if has unmerged changes)
+git branch -m <branch>  (will rename currrent branch to <branch>)
+git branch -m <oldname> <newname>
+git blame to find out last changes
+
+/**************************/
+MERGING
+bringing all the branch commits back together
+combines changes and commits into one timeline, the branches can stay and can keep working
+have to resolve merge conflicts
+in most cases git will resolve them unless it cant resolve on its own
+basic merging
+git merge <new_branch> is a basic merge
+how to merge if you have merge conflicts
+FIRST LOOK AT FILE IN NANO
+remove conflict markers, choose one.  It is your choice
+add file to staging area, then run git commit
+git will show you a merge commit conflict message
+GIT REBASE will make for a cleaner project, it moves your branch to the end of the master and makes for a linear project history, can do an interactive rebase to clean up the commit history
+if you get a conflict, you can use git checkout --ours <filename> or git checkout --theirs <filename> to choose
+
+/******************************/
+WORKING WITH REMOTE REPOSITORIES
+your repository stays on your computer
+how to merge history between different copies of the same repository
+PUSH or PULL
+can have central repository for official version of code
+CLONING
+usually clone a remote repository that lives somewhere else
+git clone <address>
+git clone ~/my_really_cool_project <new_name>
+git sets up our original repository as our remote compository at origin
+but can add clone as a remote to origin with git remote add <clone_name> <path>
+now clones can talk to each other
+PUSHING AND PULLING CHANGES
+git push origin <branch_name> will tell origin to follow your branch
+git pull origin <branch_name>  (like a merge from another branch, but from another repo)
+git add <file with conflicts>
+git commit
+git push
+GITHUB
+issue tracker on right hand side
+pull requests are attached specifically to code, can comment on the code changes
+like a branch that people can comment on
+can watch each project, or star it
+can fork project, creating a clone to our own github account, our own copy
+
+WORKFLOW
+create new branch from master, with name
+use a FEATURE BRANCH dedicated to a new feature until ready to merge back to master
+GIT-FLOW
+a new branch for everything, creates a prefix for each kind of branch
+can tag different commits
+need to install
+git flow feature start feature_name
+can do hotfix branches
+need to read more about this
+git flow feature finish feature_name
